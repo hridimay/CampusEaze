@@ -1,7 +1,7 @@
 fastapi>=0.115
 uvicorn[standard]>=0.32
 sqlalchemy>=2.0
-psycopg2-binary>=2.9
+psycopg[binary]
 pydantic[email]>=2.9
 PyJWT>=2.9
 python-multipart>=0.0.12
