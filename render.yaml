@@ -12,7 +12,7 @@ services:
     dockerContext: ./backend
     dockerfilePath: ./backend/Dockerfile
     plan: free
-    healthCheckPath: /
+    healthCheckPath: /health
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -21,6 +21,20 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: CORS_ORIGINS
-        sync: false   # set to your frontend URL in the dashboard
+        sync: false   # https://<frontend>.onrender.com, no trailing slash
       - key: PORT
         value: "8000"
+
+  - type: web
+    name: frontend
+    runtime: static
+    rootDir: ./frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false   # https://<backend>.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
