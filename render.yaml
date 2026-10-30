@@ -21,20 +21,6 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: CORS_ORIGINS
-        sync: false   # https://<frontend>.onrender.com, no trailing slash
+        value: "*"   # temporary; replace with your frontend URL later
       - key: PORT
         value: "8000"
-
-  - type: web
-    name: frontend
-    runtime: static
-    rootDir: ./frontend
-    buildCommand: npm ci && npm run build
-    staticPublishPath: ./dist
-    envVars:
-      - key: VITE_API_URL
-        sync: false   # https://<backend>.onrender.com
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
